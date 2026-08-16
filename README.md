@@ -1,73 +1,42 @@
-# React + TypeScript + Vite
+# Aria — Personal Homepage
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## GitHub Pages 部署指南
 
-Currently, two official plugins are available:
+### 方式一：直接部署（推荐）
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. **创建新的 GitHub 仓库**
+   - 在 GitHub 上创建新仓库，例如 `aria-homepage`
 
-## React Compiler
+2. **上传文件**
+   将本文件夹内所有文件上传到仓库的 `main` 分支：
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin https://github.com/你的用户名/aria-homepage.git
+   git push -u origin main
+   ```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+3. **开启 GitHub Pages**
+   - 进入仓库 Settings → Pages
+   - Source 选择 "GitHub Actions"
+   - 首次推送后会自动触发部署
 
-## Expanding the ESLint configuration
+4. **访问网站**
+   - 部署完成后，通过 `https://你的用户名.github.io/aria-homepage` 访问
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 方式二：从源码构建部署
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+如果以后需要修改源码重新构建，请使用项目根目录的原始文件，修改后运行：
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+然后将 `dist` 目录内容上传到仓库即可。
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**注意**：当前 `dist` 文件使用相对路径 `./`，适配 GitHub Pages 项目页面部署。如果部署到自定义域名，需将 `vite.config.ts` 中的 `base` 改为 `base: '/'` 后重新构建。
